@@ -32,6 +32,7 @@
     "allowImportingTsExtensions": true,
     "rewriteRelativeImportExtensions": true,
 
+    //Feature support
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": ["es2022"],
