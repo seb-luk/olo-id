@@ -1,7 +1,0 @@
-{
-  "displayName": "olo-id",
-  "testEnvironment": "node",
-  "verbose": true,
-  "transform": {},
-  "testPathIgnorePatterns": ["[a-z0-9\/]+.spec.ts"]
-}
