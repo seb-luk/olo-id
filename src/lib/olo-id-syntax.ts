@@ -88,7 +88,7 @@ export class OloIdSyntax<Separator extends string = IdSeparator> {
    *
    * @param syntaxes - An array of initial syntaxes to register. Each syntax can be a
    *   separator-joined string (e.g., "type/id") or an array of strings (e.g., ['type', 'id']).
-   *   Defaults to `['UNDEFINED']` if no syntaxes are provided.
+   *   Defaults to `[]` if no syntaxes are provided.
    * @param options - Configuration options for the syntax manager.
    * @param options.seperator - The separator character or string to be used globally.
    *   This is set only once by the first instance created. Defaults to `ID_TYPE_SEPARATOR` (usually '/').
@@ -101,7 +101,7 @@ export class OloIdSyntax<Separator extends string = IdSeparator> {
    * const syntaxManager2 = new OloIdSyntax(['type-id', ['category', 'code']], { seperator: '-' });
    * // Note: The separator '-' will only be set globally if this is the first instance.
    */
-  constructor (syntaxes: (string | string[])[] = [ID_TYPE_UNDEFINED], { seperator = ID_TYPE_SEPARATOR as Separator }: OloIdSyntaxOptions<Separator> = {}) {
+  constructor (syntaxes: (string | string[])[] = [], { seperator = ID_TYPE_SEPARATOR as Separator }: OloIdSyntaxOptions<Separator> = {}) {
     OloIdSyntax.separator = OloIdSyntax.separator ?? seperator as IdSeparator;
 
     this.registerSyntaxes(syntaxes);
@@ -192,7 +192,7 @@ export class OloIdSyntax<Separator extends string = IdSeparator> {
    * and adds the valid, normalized, separator-joined string representation to the target Set
    * (usually the static `syntaxes` registry).
    *
-   * It also ensures that the default `ID_TYPE_UNDEFINED` syntax is removed from the Set
+   * It also ensures that the default `ID_TYPE_UNDEFINED` syntax is added to an empty set and is removed from the Set
    * once any valid syntax is registered.
    *
    * @param syntaxes - An array of syntaxes to register. Each element can be a
@@ -210,16 +210,20 @@ export class OloIdSyntax<Separator extends string = IdSeparator> {
     syntaxes: (string | string[])[],
     { set = OloIdSyntax.syntaxes }: { set?: Set<string> } = {},
   ): string[][] {
-    syntaxes.forEach(
-      (syntax) => {
-        const inputSyntax = this.normSyntax(syntax);
+    if (syntaxes.filter(syntax => !!syntax).length === 0 && set.size === 0) {
+      set.add(ID_TYPE_UNDEFINED);
+    } else {
+      syntaxes.forEach(
+        (syntax) => {
+          const inputSyntax = this.normSyntax(syntax);
 
-        if (inputSyntax.length > 0) {
-          set.delete(ID_TYPE_UNDEFINED);
-          set.add(inputSyntax.join(OloIdSyntax.separator));
+          if (inputSyntax.length > 0) {
+            set.delete(ID_TYPE_UNDEFINED);
+            set.add(inputSyntax.join(OloIdSyntax.separator));
+          }
         }
-      }
-    );
+      );
+    }
 
     return this.getSyntaxMatrix(set);
   }
@@ -313,9 +317,8 @@ export class OloIdSyntax<Separator extends string = IdSeparator> {
 
     const syntaxMatcher = (testSyntax: string[]) => testSyntax.filter(syntaxItem => !inputSyntax.includes(syntaxItem)).length === 0;
 
-    const resultSyntaxes = [
-      this.getSyntaxMatrix().find((syntax) => syntaxMatcher(syntax) && syntax.length === inputSyntax.length)
-    ]
+    const resultSyntaxes =  this.getSyntaxMatrix()
+      .filter(syntaxMatcher)
       .filter(item => !!item);
 
     if (resultSyntaxes.length === 0) {

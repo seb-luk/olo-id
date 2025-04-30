@@ -173,7 +173,7 @@ export class OloId<
 
     compId = idParamIsString
       ? syntaxList.reduce((acc, key: IdentifierProperties[number], index) => {
-          acc[key] = identifier.split(this.separator)[index] ?? '';
+          acc[key] = syntaxList.length === 1 ? identifier : identifier.split(this.separator)[index] ?? '';
           return acc;
         }, {} as OloUri<IdentifierProperties>)
       : identifier as OloUri<IdentifierProperties>;

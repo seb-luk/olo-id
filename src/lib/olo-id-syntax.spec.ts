@@ -17,7 +17,7 @@ describe('OloIdSyntax', () => {
   it('should initialize with custom separator', () => {
     const syntax = new OloIdSyntax([], { seperator: '-' });
     expect(syntax.getSeparator()).toBe('-');
-    expect(syntax.getSyntaxes()).toEqual([]);
+    expect(syntax.getSyntaxes()).toEqual([["UNDEFINED"]]);
   });
 
   it('should register syntaxes from constructor', () => {
@@ -69,12 +69,12 @@ describe('OloIdSyntax', () => {
 
   it('should handle empty syntax array', () => {
     const syntax = new OloIdSyntax([]);
-    expect(syntax.getSyntaxes()).toEqual([]);
+    expect(syntax.getSyntaxes()).toEqual([["UNDEFINED"]]);
   });
 
   it('should handle empty string syntax', () => {
     const syntax = new OloIdSyntax(['']);
-    expect(syntax.getSyntaxes()).toEqual([]);
+    expect(syntax.getSyntaxes()).toEqual([["UNDEFINED"]]);
   });
 
   it('should handle duplicate syntaxes', () => {

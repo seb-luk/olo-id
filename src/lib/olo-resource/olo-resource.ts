@@ -79,7 +79,7 @@ export class OloResource<IdentifierProperties extends string[][] = string[][]> e
   /**
    * The file size of the asset in bytes.
    *
-   *np @optional
+   * @optional
    */
   public size?: number;
 
