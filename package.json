@@ -1,6 +1,6 @@
 {
     "name": "olo-id",
-    "version": "0.1.1 ",
+    "version": "0.1.2",
     "description": "olo id aims provide needed functionality around ids and identifying entities in general: checking if two ids are the same and compiling ids in various formats.",
     "keywords": [
         "ids",
