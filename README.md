@@ -2,6 +2,16 @@
 
 olo id aims provide needed functionality around ids and identifying entities in general: checking if two ids are the same and compiling ids in various formats.
 
+## Installation
+
+Navigate to your project folder and enter the following in you terminal:
+
+```sh
+npm i olo-id --save
+```
+
+## Usage
+
 You can use the olo id class for ids stored in one parameter of your entity or in multiple identifiaction props. You just need to let the class know the relevant property names.
 
 ```ts
